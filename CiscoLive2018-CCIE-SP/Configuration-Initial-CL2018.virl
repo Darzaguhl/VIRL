@@ -1,0 +1,4539 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <node name="CE110" type="SIMPLE" subtype="IOSv" location="46,346">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:31:20 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE101
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$pd4t$6rqAEaV03pOiw/8RAyVV91
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 13.101.13.1 255.255.255.255
+ipv6 address 2001:13:101:13::1/128
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.111 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE11
+ip address 172.16.101.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:172:16:101::254/64
+!
+!
+router eigrp AS64
+!
+address-family ipv4 unicast autonomous-system 64
+!
+af-interface Loopback0
+passive-interface
+exit-af-interface
+!
+topology base
+exit-af-topology
+network 13.0.0.0
+network 172.16.0.0
+exit-address-family
+!
+address-family ipv6 unicast autonomous-system 64
+!
+af-interface Loopback0
+passive-interface
+exit-af-interface
+!
+topology base
+exit-af-topology
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="CE111" type="SIMPLE" subtype="IOSv" location="278,73">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:31:37 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE111
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip multicast-routing
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$gq.B$AFplrt.II7NMGIlIkUAuo/
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 13.13.13.11 255.255.255.255
+ip pim sparse-mode
+ip igmp join-group 225.1.1.1
+ipv6 address 2001:13:13:13::11/128
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.114 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE13
+ip address 172.16.11.254 255.255.255.0
+ip pim sparse-mode
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:172:16:11::254/64
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip pim rp-address 172.16.10.1
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv - Cisco Systems Confidential *
+* *
+* Supplemental End User License Restrictions *
+* *
+* This IOSv software is provided AS-IS without warranty of any kind. *
+* Under no circumstances may this software be used separate from *
+* the Cisco Modeling Labs Software that this software was provided *
+* with, or deployed or used as part of a production environment. *
+* *
+* By using the software, you agree to abide by the terms and *
+* conditions of the Cisco End User License Agreement at *
+* http://www.cisco.com/go/eula. *
+* *
+* Unauthorized use or distribution of this software is expressly *
+* prohibited. *
+**************************************************************************
+`
+banner incoming `
+**************************************************************************
+* IOSv - Cisco Systems Confidential *
+* *
+* Supplemental End User License Restrictions *
+* *
+* This IOSv software is provided AS-IS without warranty of any kind. *
+* Under no circumstances may this software be used separate from *
+* the Cisco Modeling Labs Software that this software was provided *
+* with, or deployed or used as part of a production environment. *
+* *
+* By using the software, you agree to abide by the terms and *
+* conditions of the Cisco End User License Agreement at *
+* http://www.cisco.com/go/eula. *
+* *
+* Unauthorized use or distribution of this software is expressly *
+* prohibited. *
+**************************************************************************
+`
+banner login `
+**************************************************************************
+* IOSv - Cisco Systems Confidential *
+* *
+* Supplemental End User License Restrictions *
+* *
+* This IOSv software is provided AS-IS without warranty of any kind. *
+* Under no circumstances may this software be used separate from *
+* the Cisco Modeling Labs Software that this software was provided *
+* with, or deployed or used as part of a production environment. *
+* *
+* By using the software, you agree to abide by the terms and *
+* conditions of the Cisco End User License Agreement at *
+* http://www.cisco.com/go/eula. *
+* *
+* Unauthorized use or distribution of this software is expressly *
+* prohibited. *
+**************************************************************************
+`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="CE102" type="SIMPLE" subtype="IOSv" location="314,577">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:31:25 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE102
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$6XEx$cK1qkI54NCZtqaC6CCv3//
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 13.101.13.2 255.255.255.255
+ipv6 address 2001:13:101:13::2/128
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.112 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE15
+ip address 172.16.102.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:172:16:102::254/64
+!
+!
+router eigrp AS64
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="PE21" type="SIMPLE" subtype="IOSv" location="538,213">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:33:48 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PE21
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$9QMl$3rM.U9Eyf98kFITnHGGVx1
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$d5xG$fFFpeXRwQBtIfAkz1TcDt0
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 20.200.0.1 255.255.255.255
+ipv6 address 2001:20:200::1/128
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.127 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE13
+ip address 1.9.13.21 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:1:9:13::21/64
+!
+interface GigabitEthernet0/2
+description to P24
+ip address 20.200.14.1 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:14::1/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/3
+description to PE22
+ip address 20.200.12.1 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:12::1/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/4
+description to CE23
+ip address 192.168.23.1 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:192:168:23::1/64
+!
+interface GigabitEthernet0/5
+description to CE21
+ip address 192.168.21.1 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/5.66
+encapsulation dot1Q 66
+no cdp enable
+!
+interface GigabitEthernet0/6
+description to PE301
+ip address 91.3.0.21 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:91:3::21/64
+!
+router ospfv3 901
+router-id 20.200.0.1
+!
+address-family ipv6 unicast
+passive-interface Loopback0
+redistribute static
+exit-address-family
+!
+router ospf 901
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng area 0
+passive-interface Loopback0
+network 20.200.0.0 0.0.255.255 area 0
+!
+router bgp 901
+bgp router-id 20.200.0.1
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 1.9.13.13 remote-as 109
+neighbor 20.200.0.2 remote-as 901
+neighbor 20.200.0.2 description RR-PE22
+neighbor 20.200.0.2 update-source Loopback0
+neighbor 2001:1:9:13::13 remote-as 109
+neighbor 2001:20:200::2 remote-as 901
+neighbor 2001:20:200::2 description RR-PE22
+neighbor 2001:20:200::2 update-source Loopback0
+neighbor 2001:91:3::1 remote-as 91
+neighbor 91.3.0.1 remote-as 91
+!
+address-family ipv4
+network 20.200.0.0 mask 255.255.0.0
+aggregate-address 20.200.0.0 255.255.0.0 summary-only
+redistribute static
+neighbor 1.9.13.13 activate
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 next-hop-self
+neighbor 91.3.0.1 activate
+exit-address-family
+!
+address-family vpnv4
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:20:200::/48
+aggregate-address 2001:20:200::/48 summary-only
+neighbor 2001:1:9:13::13 activate
+neighbor 2001:20:200::2 activate
+neighbor 2001:20:200::2 next-hop-self
+neighbor 2001:91:3::1 activate
+exit-address-family
+!
+address-family vpnv6
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 20.200.0.0 255.255.0.0 Null0 254
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ipv6 route 2001:20:200::/48 Null0 254
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec `CC`
+banner incoming `CC`
+banner login `CC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+        <interface id="4" name="GigabitEthernet0/5"/>
+        <interface id="5" name="GigabitEthernet0/6"/>
+    </node>
+    <node name="PE12" type="SIMPLE" subtype="IOS XRv" location="165,345">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! Last configuration change at Fri Jan 26 21:41:01 2018 by CVAC
+!
+! IOS-XR Config generated on 2017-10-30 11:56
+! by autonetkit_0.23.5
+hostname PE12
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+domain name virl.info
+domain lookup disable
+vrf Mgmt-intf
+address-family ipv4 unicast
+!
+address-family ipv6 unicast
+!
+!
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+management-plane
+inband
+interface all
+allow all
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ipv4 address 10.100.0.2 255.255.255.255
+ipv6 address 2001:10:100::2/128
+!
+interface MgmtEth0/0/CPU0/0
+description OOB Management
+! Configured on launch
+vrf Mgmt-intf
+ipv4 address 172.16.1.124 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+description to PE11
+ipv4 address 10.100.12.2 255.255.255.0
+ipv6 address 2001:10:100:12::2/64
+!
+interface GigabitEthernet0/0/0/1
+description to P16
+ipv4 address 10.100.26.2 255.255.255.0
+ipv6 address 2001:10:100:26::2/64
+!
+interface GigabitEthernet0/0/0/2
+description to PE13
+ipv4 address 10.100.23.2 255.255.255.0
+ipv6 address 2001:10:100:23::2/64
+!
+interface GigabitEthernet0/0/0/3
+description to P14
+ipv4 address 10.100.24.2 255.255.255.0
+ipv6 address 2001:10:100:24::2/64
+!
+interface GigabitEthernet0/0/0/4
+description to PE15
+ipv4 address 10.100.25.2 255.255.255.0
+ipv6 address 2001:10:100:25::2/64
+!
+interface GigabitEthernet0/0/0/5
+description to CE110
+ipv4 address 172.16.10.1 255.255.255.0
+ipv6 address 2001:172:16:10::1/64
+!
+route-policy bgp_in
+pass
+end-policy
+!
+route-policy bgp_out
+pass
+end-policy
+!
+route-policy ibgp_in
+pass
+end-policy
+!
+router static
+address-family ipv4 unicast
+10.100.0.0/16 Null0 254
+!
+address-family ipv6 unicast
+2001:10:100::/48 Null0 254
+2001:10:100::1/128 2001:10:100:12::1
+2001:10:100::4/128 GigabitEthernet0/0/0/3
+2001:10:100::4/128 2001:10:100:24::4
+2001:10:100::5/128 2001:10:100:25::5
+2001:10:100::6/128 2001:10:100:26::6
+!
+!
+router isis 109
+net 49.0109.0000.0002.00
+address-family ipv4 unicast
+metric-style wide
+mpls traffic-eng level-1-2
+mpls traffic-eng router-id Loopback0
+!
+address-family ipv6 unicast
+metric-style wide
+!
+interface Loopback0
+address-family ipv4 unicast
+!
+address-family ipv6 unicast
+!
+!
+interface GigabitEthernet0/0/0/0
+circuit-type level-2-only
+point-to-point
+address-family ipv4 unicast
+metric 1
+!
+address-family ipv6 unicast
+metric 1
+!
+!
+interface GigabitEthernet0/0/0/1
+circuit-type level-2-only
+point-to-point
+address-family ipv4 unicast
+metric 1
+!
+address-family ipv6 unicast
+metric 1
+!
+!
+interface GigabitEthernet0/0/0/2
+circuit-type level-2-only
+point-to-point
+address-family ipv4 unicast
+metric 100
+!
+address-family ipv6 unicast
+metric 100
+!
+!
+interface GigabitEthernet0/0/0/3
+circuit-type level-1
+point-to-point
+address-family ipv4 unicast
+metric 1
+!
+address-family ipv6 unicast
+metric 1
+!
+!
+interface GigabitEthernet0/0/0/4
+circuit-type level-1
+point-to-point
+address-family ipv4 unicast
+metric 100
+!
+address-family ipv6 unicast
+metric 100
+!
+!
+!
+router bgp 109
+bgp router-id 10.100.0.2
+address-family ipv4 unicast
+network 10.100.0.0/16
+aggregate-address 10.100.0.0/16 summary-only
+!
+address-family vpnv4 unicast
+!
+address-family ipv6 unicast
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+!
+address-family vpnv6 unicast
+!
+neighbor 10.100.0.1
+remote-as 109
+description PE11
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 10.100.0.3
+remote-as 109
+description PE13
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 10.100.0.4
+remote-as 109
+description P14
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 10.100.0.5
+remote-as 109
+description PE15
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 10.100.0.6
+remote-as 109
+description RR VPNv4
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+next-hop-self
+!
+address-family vpnv4 unicast
+next-hop-self
+!
+address-family vpnv6 unicast
+next-hop-self
+!
+!
+neighbor 2001:10:100::1
+remote-as 109
+description RR P11
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 2001:10:100::3
+remote-as 109
+description PE13
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 2001:10:100::4
+remote-as 109
+description P14
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 2001:10:100::5
+remote-as 109
+description P14
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+next-hop-self
+!
+!
+neighbor 2001:10:100::6
+remote-as 109
+description P16
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+next-hop-self
+!
+!
+!
+rsvp
+interface GigabitEthernet0/0/0/0
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/1
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/2
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/3
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/4
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/5
+bandwidth percentage 100
+!
+!
+mpls traffic-eng
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/1
+!
+interface GigabitEthernet0/0/0/2
+!
+interface GigabitEthernet0/0/0/3
+!
+interface GigabitEthernet0/0/0/4
+!
+interface GigabitEthernet0/0/0/5
+!
+!
+mpls ldp
+router-id 10.100.0.2
+address-family ipv4
+!
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/1
+!
+interface GigabitEthernet0/0/0/2
+!
+interface GigabitEthernet0/0/0/3
+!
+interface GigabitEthernet0/0/0/4
+!
+interface GigabitEthernet0/0/0/5
+!
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+    </node>
+    <node name="PE13" type="SIMPLE" subtype="IOS XRv" location="311,211">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at Fri Jan 26 21:41:03 2018 by CVAC
+!
+! IOS-XR Config generated on 2017-10-30 11:56
+! by autonetkit_0.23.5
+hostname PE13
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+domain name virl.info
+domain lookup disable
+vrf Mgmt-intf
+address-family ipv4 unicast
+!
+address-family ipv6 unicast
+!
+!
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+management-plane
+inband
+interface all
+allow all
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ipv4 address 10.100.0.3 255.255.255.255
+ipv6 address 2001:10:100::3/128
+!
+interface MgmtEth0/0/CPU0/0
+description OOB Management
+! Configured on launch
+vrf Mgmt-intf
+ipv4 address 172.16.1.125 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+description to PE11
+ipv4 address 10.100.13.3 255.255.255.0
+ipv6 address 2001:10:100:13::3/64
+!
+interface GigabitEthernet0/0/0/1
+description to P16
+ipv4 address 10.100.36.3 255.255.255.0
+ipv6 address 2001:10:100:36::3/64
+!
+interface GigabitEthernet0/0/0/2
+description to PE12
+ipv4 address 10.100.23.3 255.255.255.0
+ipv6 address 2001:10:100:23::3/64
+!
+interface GigabitEthernet0/0/0/3
+description to CE111
+ipv4 address 172.16.11.1 255.255.255.0
+ipv6 address 2001:172:16:11::1/64
+!
+interface GigabitEthernet0/0/0/4
+description to PE21
+ipv4 address 1.9.13.13 255.255.255.0
+ipv6 address 2001:1:9:13::13/64
+!
+interface GigabitEthernet0/0/0/5
+description to PE301
+ipv4 address 19.3.0.13 255.255.255.0
+ipv6 address 2001:19:3::13/64
+!
+route-policy bgp_in
+pass
+end-policy
+!
+route-policy bgp_out
+pass
+end-policy
+!
+route-policy ibgp_in
+pass
+end-policy
+!
+router static
+address-family ipv4 unicast
+10.100.0.0/16 Null0 254
+!
+address-family ipv6 unicast
+2001:10:100::/48 Null0 254
+!
+!
+router isis 109
+is-type level-2-only
+net 49.0109.0000.0003.00
+address-family ipv4 unicast
+metric-style wide
+mpls traffic-eng level-2-only
+mpls traffic-eng router-id Loopback0
+!
+address-family ipv6 unicast
+metric-style wide
+!
+interface Loopback0
+address-family ipv4 unicast
+!
+address-family ipv6 unicast
+!
+!
+interface GigabitEthernet0/0/0/0
+point-to-point
+address-family ipv4 unicast
+metric 1
+!
+address-family ipv6 unicast
+metric 1
+!
+!
+interface GigabitEthernet0/0/0/1
+point-to-point
+address-family ipv4 unicast
+metric 1
+!
+address-family ipv6 unicast
+metric 1
+!
+!
+interface GigabitEthernet0/0/0/2
+point-to-point
+address-family ipv4 unicast
+metric 100
+!
+address-family ipv6 unicast
+metric 100
+!
+!
+!
+router bgp 109
+bgp router-id 10.100.0.3
+address-family ipv4 unicast
+network 10.100.0.0/16
+aggregate-address 10.100.0.0/16 summary-only
+!
+address-family vpnv4 unicast
+!
+address-family ipv6 unicast
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+!
+address-family vpnv6 unicast
+!
+neighbor 19.3.0.1
+remote-as 19
+address-family ipv4 unicast
+route-policy bgp_in in
+route-policy bgp_out out
+!
+!
+neighbor 1.9.13.21
+remote-as 901
+address-family ipv4 unicast
+route-policy bgp_in in
+route-policy bgp_out out
+!
+!
+neighbor 10.100.0.2
+remote-as 109
+description RR PE12
+update-source Loopback0
+address-family ipv4 unicast
+next-hop-self
+!
+!
+neighbor 10.100.0.6
+remote-as 109
+description RR VPNv4
+update-source Loopback0
+address-family vpnv4 unicast
+next-hop-self
+!
+address-family vpnv6 unicast
+next-hop-self
+!
+!
+neighbor 2001:19:3::1
+remote-as 19
+address-family ipv6 unicast
+route-policy bgp_in in
+route-policy bgp_out out
+!
+!
+neighbor 2001:10:100::2
+remote-as 109
+description RR PE12
+update-source Loopback0
+address-family ipv6 unicast
+next-hop-self
+!
+!
+neighbor 2001:1:9:13::21
+remote-as 901
+address-family ipv6 unicast
+route-policy bgp_in in
+route-policy bgp_out out
+!
+!
+!
+rsvp
+interface GigabitEthernet0/0/0/0
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/1
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/2
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/3
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/4
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/5
+bandwidth percentage 100
+!
+!
+mpls traffic-eng
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/1
+!
+interface GigabitEthernet0/0/0/2
+!
+interface GigabitEthernet0/0/0/3
+!
+interface GigabitEthernet0/0/0/4
+!
+interface GigabitEthernet0/0/0/5
+!
+!
+mpls ldp
+router-id 10.100.0.3
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/1
+!
+interface GigabitEthernet0/0/0/2
+!
+interface GigabitEthernet0/0/0/3
+!
+interface GigabitEthernet0/0/0/4
+!
+interface GigabitEthernet0/0/0/5
+!
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+    </node>
+    <node name="PE22" type="SIMPLE" subtype="IOS XRv" location="601,352">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! Last configuration change at Fri Jan 26 21:41:20 2018 by CVAC
+!
+! IOS-XR Config generated on 2017-10-30 11:56
+! by autonetkit_0.23.5
+hostname PE22
+service timestamps log datetime msec
+service timestamps debug datetime msec
+telnet vrf default ipv4 server max-servers 10
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+domain name virl.info
+domain lookup disable
+vrf Mgmt-intf
+address-family ipv4 unicast
+!
+address-family ipv6 unicast
+!
+!
+line template vty
+timestamp
+exec-timeout 720 0
+!
+line console
+exec-timeout 0 0
+!
+line default
+exec-timeout 720 0
+!
+vty-pool default 0 50
+control-plane
+management-plane
+inband
+interface all
+allow all
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ipv4 address 20.200.0.2 255.255.255.255
+ipv6 address 2001:20:200::2/128
+!
+interface MgmtEth0/0/CPU0/0
+description OOB Management
+! Configured on launch
+vrf Mgmt-intf
+ipv4 address 172.16.1.128 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+description to PE21
+ipv4 address 20.200.12.2 255.255.255.0
+ipv6 address 2001:20:200:12::2/64
+!
+interface GigabitEthernet0/0/0/1
+description to P24
+ipv4 address 20.200.24.2 255.255.255.0
+ipv6 address 2001:20:200:24::2/64
+!
+interface GigabitEthernet0/0/0/2
+description to P25
+ipv4 address 20.200.25.2 255.255.255.0
+ipv6 address 2001:20:200:25::2/64
+!
+interface GigabitEthernet0/0/0/3
+description to CE24
+ipv4 address 192.168.24.1 255.255.255.0
+ipv6 address 2001:192:168:24::1/64
+!
+interface GigabitEthernet0/0/0/3.66
+encapsulation dot1q 66
+!
+route-policy bgp_in
+pass
+end-policy
+!
+route-policy bgp_out
+pass
+end-policy
+!
+route-policy ibgp_in
+pass
+end-policy
+!
+router static
+address-family ipv4 unicast
+20.200.0.0/16 Null0 254
+!
+address-family ipv6 unicast
+2001:20:200::/48 Null0 254
+!
+!
+router ospf 901
+log adjacency changes
+area 0
+mpls traffic-eng
+interface Loopback0
+passive enable
+!
+interface GigabitEthernet0/0/0/0
+cost 1
+!
+interface GigabitEthernet0/0/0/1
+cost 1
+!
+interface GigabitEthernet0/0/0/2
+cost 1
+!
+!
+mpls traffic-eng router-id Loopback0
+!
+router ospfv3 901
+router-id 20.200.0.2
+area 0
+interface Loopback0
+passive
+!
+interface GigabitEthernet0/0/0/0
+cost 1
+!
+interface GigabitEthernet0/0/0/1
+cost 1
+!
+interface GigabitEthernet0/0/0/2
+cost 1
+!
+!
+address-family ipv6 unicast
+!
+router bgp 901
+bgp router-id 20.200.0.2
+address-family ipv4 unicast
+network 20.200.0.0/16
+aggregate-address 20.200.0.0/16 summary-only
+!
+address-family vpnv4 unicast
+!
+address-family ipv6 unicast
+network 2001:20:200::/48
+aggregate-address 2001:20:200::/48 summary-only
+!
+address-family vpnv6 unicast
+!
+neighbor 20.200.0.1
+remote-as 901
+description RRC PE21
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+!
+address-family vpnv4 unicast
+route-reflector-client
+!
+address-family vpnv6 unicast
+route-reflector-client
+!
+!
+neighbor 20.200.0.3
+remote-as 901
+description RRC PE23
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+!
+address-family vpnv4 unicast
+route-reflector-client
+!
+address-family vpnv6 unicast
+route-reflector-client
+!
+!
+neighbor 20.200.0.4
+remote-as 901
+description RRC P24
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+!
+address-family vpnv4 unicast
+route-reflector-client
+!
+address-family vpnv6 unicast
+route-reflector-client
+!
+!
+neighbor 20.200.0.5
+remote-as 901
+description RRC P25
+update-source Loopback0
+address-family ipv4 unicast
+route-reflector-client
+!
+address-family vpnv4 unicast
+route-reflector-client
+!
+address-family vpnv6 unicast
+route-reflector-client
+!
+!
+neighbor 2001:20:200::1
+remote-as 901
+description RRC PE21
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+!
+!
+neighbor 2001:20:200::3
+remote-as 901
+description RRC PE23
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+!
+!
+neighbor 2001:20:200::4
+remote-as 901
+description RRC P24
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+!
+!
+neighbor 2001:20:200::5
+remote-as 901
+description RRC P25
+update-source Loopback0
+address-family ipv6 unicast
+route-reflector-client
+!
+!
+!
+rsvp
+interface GigabitEthernet0/0/0/0
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/1
+bandwidth percentage 100
+!
+interface GigabitEthernet0/0/0/2
+bandwidth percentage 100
+!
+!
+mpls traffic-eng
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/1
+!
+interface GigabitEthernet0/0/0/2
+!
+!
+mpls ldp
+router-id 20.200.0.2
+address-family ipv4
+!
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+    </node>
+    <node name="PE11" type="SIMPLE" subtype="CSR1000v" location="162,214">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:34:43 UTC Fri Jan 26 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname PE11
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$BB7n$jniGALvJICg3qm9KrXqKE0
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing distributed
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls mldp path traffic-eng
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-948354653
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-948354653
+revocation-check none
+rsakeypair TP-self-signed-948354653
+!
+crypto pki trustpoint TP-self-signed-2735805350
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-2735805350
+revocation-check none
+rsakeypair TP-self-signed-2735805350
+!
+!
+crypto pki certificate chain TP-self-signed-948354653
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-2735805350
+license udi pid CSR1000V sn 9RV0E49K5LV
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$diWB$4RTw6MruHGhU0nDH3lRaB.
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 10.100.0.1 255.255.255.255
+ip router isis 109
+ipv6 address 2001:10:100::1/128
+ipv6 router isis 109
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.123 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to PE13
+ip address 10.100.13.1 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:13::1/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+no isis hello padding always
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet3
+description to PE12
+ip address 10.100.12.1 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:12::1/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+no isis hello padding always
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet4
+description to P16
+ip address 10.100.16.1 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:16::1/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+isis metric 100
+no isis hello padding always
+isis ipv6 metric 100
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet5
+description to CE101
+ip address 172.16.101.1 255.255.255.0
+negotiation auto
+ipv6 address 2001:172:16:101::1/64
+no mop enabled
+no mop sysid
+!
+router isis 109
+net 49.0109.0000.0001.00
+is-type level-2-only
+metric-style wide
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng level-2
+!
+router bgp 109
+bgp router-id 10.100.0.1
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 10.100.0.2 remote-as 109
+neighbor 10.100.0.2 description RRC-PE12
+neighbor 10.100.0.2 update-source Loopback0
+neighbor 10.100.0.6 remote-as 109
+neighbor 10.100.0.6 update-source Loopback0
+neighbor 2001:10:100::2 remote-as 109
+neighbor 2001:10:100::2 description RRC-PE12
+neighbor 2001:10:100::2 update-source Loopback0
+neighbor 2001:10:100::6 remote-as 109
+neighbor 2001:10:100::6 update-source Loopback0
+!
+address-family ipv4
+network 10.100.0.0 mask 255.255.0.0
+aggregate-address 10.100.0.0 255.255.0.0
+neighbor 10.100.0.2 activate
+neighbor 10.100.0.2 next-hop-self
+exit-address-family
+!
+address-family vpnv4
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+neighbor 2001:10:100::2 activate
+neighbor 2001:10:100::2 next-hop-self
+exit-address-family
+!
+address-family vpnv6
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip route 10.100.0.0 255.255.0.0 Null0 254
+!
+ipv6 route 2001:10:100::2/128 2001:10:100:12::2
+ipv6 route 2001:10:100::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+length 0
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+        <interface id="3" name="GigabitEthernet5"/>
+    </node>
+    <node name="P16" type="SIMPLE" subtype="CSR1000v" location="316,342">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:34:57 UTC Fri Jan 26 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname P16
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$jyn5$BA04eSpu0.JVo2vB7K.km/
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing distributed
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls mldp path traffic-eng
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-3953596325
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-3953596325
+revocation-check none
+rsakeypair TP-self-signed-3953596325
+!
+crypto pki trustpoint TP-self-signed-215009736
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-215009736
+revocation-check none
+rsakeypair TP-self-signed-215009736
+!
+!
+crypto pki certificate chain TP-self-signed-3953596325
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-215009736
+license udi pid CSR1000V sn 93LNH8TV85H
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$B33b$0hYC4R2yAjYi.ZiNGfXHN0
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 10.100.0.6 255.255.255.255
+ip router isis 109
+ipv6 address 2001:10:100::6/128
+ipv6 router isis 109
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.120 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to PE12
+ip address 10.100.26.6 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:26::6/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet3
+description to PE13
+ip address 10.100.36.6 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:36::6/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet4
+description to PE11
+ip address 10.100.16.6 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:16::6/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+isis metric 100
+isis ipv6 metric 100
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet5
+description to PE15
+ip address 10.100.56.6 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:56::6/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis circuit-type level-1
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet6
+description to P14
+ip address 10.100.46.6 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:46::6/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+isis metric 100
+ip rsvp bandwidth percent 100
+!
+router isis 109
+net 49.0109.0000.0006.00
+metric-style wide
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng level-1
+mpls traffic-eng level-2
+!
+router bgp 109
+bgp router-id 10.100.0.6
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 10.100.0.1 remote-as 109
+neighbor 10.100.0.1 description PE11
+neighbor 10.100.0.1 update-source Loopback0
+neighbor 10.100.0.2 remote-as 109
+neighbor 10.100.0.2 update-source Loopback0
+neighbor 10.100.0.3 remote-as 109
+neighbor 10.100.0.3 update-source Loopback0
+neighbor 10.100.0.4 remote-as 109
+neighbor 10.100.0.4 update-source Loopback0
+neighbor 10.100.0.5 remote-as 109
+neighbor 10.100.0.5 update-source Loopback0
+neighbor 2001:10:100::2 remote-as 109
+neighbor 2001:10:100::2 description P16
+neighbor 2001:10:100::2 update-source Loopback0
+!
+address-family ipv4
+network 10.100.0.0 mask 255.255.0.0
+aggregate-address 10.100.0.0 255.255.0.0 summary-only
+neighbor 10.100.0.2 activate
+exit-address-family
+!
+address-family vpnv4
+neighbor 10.100.0.1 activate
+neighbor 10.100.0.1 send-community extended
+neighbor 10.100.0.1 route-reflector-client
+neighbor 10.100.0.2 activate
+neighbor 10.100.0.2 send-community extended
+neighbor 10.100.0.2 route-reflector-client
+neighbor 10.100.0.3 activate
+neighbor 10.100.0.3 send-community extended
+neighbor 10.100.0.3 route-reflector-client
+neighbor 10.100.0.4 activate
+neighbor 10.100.0.4 send-community extended
+neighbor 10.100.0.4 route-reflector-client
+neighbor 10.100.0.5 activate
+neighbor 10.100.0.5 send-community extended
+neighbor 10.100.0.5 route-reflector-client
+exit-address-family
+!
+address-family ipv6
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+neighbor 2001:10:100::2 activate
+exit-address-family
+!
+address-family vpnv6
+neighbor 10.100.0.1 activate
+neighbor 10.100.0.1 send-community extended
+neighbor 10.100.0.1 route-reflector-client
+neighbor 10.100.0.2 activate
+neighbor 10.100.0.2 send-community extended
+neighbor 10.100.0.2 route-reflector-client
+neighbor 10.100.0.3 activate
+neighbor 10.100.0.3 send-community extended
+neighbor 10.100.0.3 route-reflector-client
+neighbor 10.100.0.4 activate
+neighbor 10.100.0.4 send-community extended
+neighbor 10.100.0.4 route-reflector-client
+neighbor 10.100.0.5 activate
+neighbor 10.100.0.5 send-community extended
+neighbor 10.100.0.5 route-reflector-client
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip route 10.100.0.0 255.255.0.0 Null0 254
+!
+ipv6 route 2001:10:100::2/128 2001:10:100:26::2
+ipv6 route 2001:10:100::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+transport preferred none
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+length 0
+transport preferred none
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+transport preferred none
+transport input telnet ssh
+!
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+        <interface id="3" name="GigabitEthernet5"/>
+        <interface id="4" name="GigabitEthernet6"/>
+    </node>
+    <node name="P14" type="SIMPLE" subtype="CSR1000v" location="161,472">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:34:41 UTC Fri Jan 26 2018
+!
+version 15.5
+service config
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname P14
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+vrf definition VPN_B
+rd 100:102
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 4 tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls ldp explicit-null
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-969745058
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-969745058
+revocation-check none
+rsakeypair TP-self-signed-969745058
+!
+crypto pki trustpoint TP-self-signed-1178354428
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-1178354428
+revocation-check none
+rsakeypair TP-self-signed-1178354428
+!
+!
+crypto pki certificate chain TP-self-signed-969745058
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-1178354428
+license udi pid CSR1000V sn 95SZH6Z3EMB
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$pPYn$AY0G5ftxYQj4No1RYasD7.
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 10.100.0.4 255.255.255.255
+ip router isis 109
+ipv6 address 2001:10:100::4/128
+ipv6 router isis 109
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.119 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to PE12
+ip address 10.100.24.4 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:24::4/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet3
+description to PE15
+ip address 10.100.45.4 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:45::4/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+isis metric 1
+isis ipv6 metric 30000
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet4
+description to P16
+ip address 10.100.46.4 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:46::4/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+isis metric 100
+isis ipv6 metric 100
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet5
+description to CE110
+no ip address
+shutdown
+negotiation auto
+ipv6 address 2001:172:16:11::1/64
+no mop enabled
+no mop sysid
+!
+router isis 109
+net 49.0109.0000.0004.00
+is-type level-1
+metric-style wide
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng level-1
+!
+router bgp 109
+bgp router-id 10.100.0.4
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 10.100.0.2 remote-as 109
+neighbor 10.100.0.2 update-source Loopback0
+neighbor 10.100.0.6 remote-as 109
+neighbor 10.100.0.6 update-source Loopback0
+neighbor 2001:10:100::2 remote-as 109
+neighbor 2001:10:100::2 update-source Loopback0
+neighbor 2001:10:100::6 remote-as 109
+neighbor 2001:10:100::6 update-source Loopback0
+!
+address-family ipv4
+network 10.100.0.0 mask 255.255.0.0
+aggregate-address 10.100.0.0 255.255.0.0 summary-only
+neighbor 10.100.0.2 activate
+exit-address-family
+!
+address-family vpnv4
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+neighbor 2001:10:100::2 activate
+exit-address-family
+!
+address-family vpnv6
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip http client source-interface GigabitEthernet1
+ip route 10.100.0.0 255.255.0.0 Null0 254
+ip route 10.100.0.1 255.255.255.255 10.100.24.2
+!
+ipv6 route 2001:10:100::1/128 2001:10:100:24::2
+ipv6 route 2001:10:100::2/128 2001:10:100:24::2
+ipv6 route 2001:10:100::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+transport preferred none
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+length 0
+transport preferred none
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+privilege level 15
+logging synchronous
+login local
+transport preferred none
+transport input telnet ssh
+!
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+    </node>
+    <node name="PE15" type="SIMPLE" subtype="CSR1000v" location="310,467">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:35:45 UTC Fri Jan 26 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname PE15
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition AS_64
+rd 64:64
+!
+address-family ipv4
+route-target export 64:64
+route-target import 64:64
+exit-address-family
+!
+address-family ipv6
+route-target export 64:64
+route-target import 64:64
+exit-address-family
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 4 tnhtc92DXBhelxjYk8LWJrPV36S2i4ntXrpb4RFmfqY
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-487100800
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-487100800
+revocation-check none
+rsakeypair TP-self-signed-487100800
+!
+crypto pki trustpoint TP-self-signed-4103265836
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-4103265836
+revocation-check none
+rsakeypair TP-self-signed-4103265836
+!
+!
+crypto pki certificate chain TP-self-signed-487100800
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-4103265836
+license udi pid CSR1000V sn 961RDDSQ2KT
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$1svh$DXTv6PU7nEwiXlVTOlZZM.
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 10.100.0.5 255.255.255.255
+ip router isis 109
+ipv6 address 2001:10:100::5/128
+ipv6 router isis 109
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.126 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to P14
+ip address 10.100.45.5 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:45::5/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet3
+description to P16
+ip address 10.100.56.5 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:56::5/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet4
+description to PE12
+ip address 10.100.25.5 255.255.255.0
+ip router isis 109
+negotiation auto
+ipv6 address 2001:10:100:25::5/64
+ipv6 router isis 109
+mpls ip
+mpls traffic-eng tunnels
+no mop enabled
+no mop sysid
+isis network point-to-point
+isis metric 100
+isis ipv6 metric 100
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet5
+description to CE102
+vrf forwarding AS_64
+ip address 172.16.102.1 255.255.255.0
+negotiation auto
+ipv6 address 2001:172:16:102::1/64
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet6
+description to P25
+ip address 1.9.55.15 255.255.255.0
+negotiation auto
+ipv6 address 2001:1:9:55::15/64
+no mop enabled
+no mop sysid
+!
+!
+router eigrp AS64
+!
+address-family ipv4 unicast vrf AS_64 autonomous-system 64
+!
+topology base
+exit-af-topology
+exit-address-family
+!
+address-family ipv6 unicast vrf AS_64 autonomous-system 64
+!
+topology base
+exit-af-topology
+exit-address-family
+!
+router isis 109
+net 49.0109.0000.0005.00
+is-type level-1
+metric-style wide
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng level-1
+!
+router bgp 109
+bgp router-id 10.100.0.5
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 1.9.55.25 remote-as 901
+neighbor 10.100.0.2 remote-as 109
+neighbor 10.100.0.2 update-source Loopback0
+neighbor 10.100.0.6 remote-as 109
+neighbor 10.100.0.6 update-source Loopback0
+neighbor 2001:1:9:55::25 remote-as 901
+neighbor 2001:10:100::2 remote-as 109
+neighbor 2001:10:100::2 update-source Loopback0
+!
+address-family ipv4
+network 10.100.0.0 mask 255.255.0.0
+network 10.100.0.5 mask 255.255.255.255
+aggregate-address 10.100.0.0 255.255.0.0 summary-only
+neighbor 1.9.55.25 activate
+neighbor 10.100.0.2 activate
+exit-address-family
+!
+address-family vpnv4
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+neighbor 10.100.0.6 next-hop-self
+exit-address-family
+!
+address-family ipv6
+network 2001:10:100::/48
+aggregate-address 2001:10:100::/48 summary-only
+neighbor 2001:1:9:55::25 activate
+neighbor 2001:10:100::2 activate
+neighbor 2001:10:100::2 next-hop-self
+exit-address-family
+!
+address-family vpnv6
+neighbor 10.100.0.6 activate
+neighbor 10.100.0.6 send-community extended
+neighbor 10.100.0.6 next-hop-self
+exit-address-family
+!
+address-family ipv4 vrf AS_64
+exit-address-family
+!
+address-family ipv6 vrf AS_64
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 10.100.0.0 255.255.0.0 Null0 254
+!
+ipv6 route 2001:10:100::2/128 2001:10:100:25::2
+ipv6 route 2001:10:100::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+length 0
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+        <interface id="3" name="GigabitEthernet5"/>
+        <interface id="4" name="GigabitEthernet6"/>
+    </node>
+    <node name="P25" type="SIMPLE" subtype="CSR1000v" location="441,466">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:34:58 UTC Fri Jan 26 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname P25
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$YKET$L/OVTCJ4ucfIINxKdTmuB/
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-3787360885
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-3787360885
+revocation-check none
+rsakeypair TP-self-signed-3787360885
+!
+crypto pki trustpoint TP-self-signed-1019076664
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-1019076664
+revocation-check none
+rsakeypair TP-self-signed-1019076664
+!
+!
+crypto pki certificate chain TP-self-signed-3787360885
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-1019076664
+license udi pid CSR1000V sn 93DO1J3F4ND
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$kJi0$n/i55Ni70Dwe4702.6g7l/
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 20.200.0.5 255.255.255.255
+ipv6 address 2001:20:200::5/128
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.122 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to PE15
+ip address 1.9.55.25 255.255.255.0
+negotiation auto
+ipv6 address 2001:1:9:55::25/64
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet3
+description to P24
+ip address 20.200.45.5 255.255.255.0
+ip ospf cost 1
+negotiation auto
+ipv6 address 2001:20:200:45::5/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+no mop enabled
+no mop sysid
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet4
+description to PE23
+ip address 20.200.35.5 255.255.255.0
+ip ospf cost 1
+negotiation auto
+ipv6 address 2001:20:200:35::5/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+no mop enabled
+no mop sysid
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet5
+description to PE22
+ip address 20.200.25.5 255.255.255.0
+ip ospf cost 1
+negotiation auto
+ipv6 address 2001:20:200:25::5/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+no mop enabled
+no mop sysid
+ip rsvp bandwidth percent 100
+!
+router ospfv3 901
+router-id 20.200.0.5
+!
+address-family ipv6 unicast
+passive-interface Loopback0
+exit-address-family
+!
+router ospf 901
+passive-interface Loopback0
+network 20.200.0.0 0.0.255.255 area 0
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng area 0
+!
+router bgp 901
+bgp router-id 20.200.0.5
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 1.9.55.15 remote-as 109
+neighbor 20.200.0.2 remote-as 901
+neighbor 20.200.0.2 description RR-PE22
+neighbor 20.200.0.2 update-source Loopback0
+neighbor 2001:1:9:55::15 remote-as 109
+neighbor 2001:20:200::2 remote-as 901
+neighbor 2001:20:200::2 description RR-PE22
+neighbor 2001:20:200::2 update-source Loopback0
+!
+address-family ipv4
+network 20.200.0.0 mask 255.255.0.0
+aggregate-address 20.200.0.0 255.255.0.0 summary-only
+neighbor 1.9.55.15 activate
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 next-hop-self
+exit-address-family
+!
+address-family vpnv4
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:20:200::/48
+aggregate-address 2001:20:200::/48 summary-only
+neighbor 2001:1:9:55::15 activate
+neighbor 2001:20:200::2 activate
+neighbor 2001:20:200::2 next-hop-self
+exit-address-family
+!
+address-family vpnv6
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 20.200.0.0 255.255.0.0 Null0 254
+!
+ipv6 route 2001:20:200::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+length 0
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+transport input telnet ssh
+!
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+        <interface id="3" name="GigabitEthernet5"/>
+    </node>
+    <node name="P24" type="SIMPLE" subtype="IOSv" location="441,350">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:32:51 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname P24
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$vE94$3d06EhgR1XhF/BBRK0PXe/
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$1Y2o$x6W/Y9BaxBGIRP2npAnlo.
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 20.200.0.4 255.255.255.255
+ipv6 address 2001:20:200::4/128
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.121 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE21
+ip address 20.200.14.4 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:14::4/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/2
+description to PE22
+ip address 20.200.24.4 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:24::4/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/3
+description to P25
+ip address 20.200.45.4 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:45::4/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/4
+description to PE23
+ip address 20.200.34.4 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:34::4/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+router ospfv3 901
+router-id 20.200.0.4
+!
+address-family ipv6 unicast
+passive-interface Loopback0
+exit-address-family
+!
+router ospf 901
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng area 0
+passive-interface Loopback0
+network 20.200.0.0 0.0.255.255 area 0
+!
+router bgp 901
+bgp router-id 20.200.0.4
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 20.200.0.2 remote-as 901
+neighbor 20.200.0.2 description RR-PE22
+neighbor 20.200.0.2 update-source Loopback0
+neighbor 2001:20:200::2 remote-as 901
+neighbor 2001:20:200::2 description RR-PE22
+neighbor 2001:20:200::2 update-source Loopback0
+!
+address-family ipv4
+network 20.200.0.0 mask 255.255.0.0
+aggregate-address 20.200.0.0 255.255.0.0 summary-only
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 next-hop-self
+exit-address-family
+!
+address-family vpnv4
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:20:200::/48
+aggregate-address 2001:20:200::/48 summary-only
+neighbor 2001:20:200::2 activate
+neighbor 2001:20:200::2 next-hop-self
+exit-address-family
+!
+address-family vpnv6
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 20.200.0.0 255.255.0.0 Null0 254
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ipv6 route 2001:20:200::/48 Null0 254
+!
+!
+!
+control-plane
+!
+banner exec `C`
+banner incoming `C`
+banner login `C`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="CE24" type="SIMPLE" subtype="IOSv" location="726,345">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:32:09 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE24
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$Gx.H$W8bgDdugl09STEEd/t4Wz1
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 23.23.0.4 255.255.255.255
+ipv6 address 2001:23:23::4/128
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.118 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE22
+ip address 192.168.24.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:192:168:24::254/64
+!
+router bgp 24
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+!
+address-family ipv4
+network 23.23.0.4 mask 255.255.255.255
+exit-address-family
+!
+address-family ipv6
+network 2001:23:23::4/128
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="PE23" type="SIMPLE" subtype="IOSv" location="604,467">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:33:48 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PE23
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$aTAD$vaawgtPuVQJBVIKF7bc2D.
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$Gv2E$o6SgZp4JCcIVdSCm2V4tt.
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 20.200.0.3 255.255.255.255
+ipv6 address 2001:20:200::3/128
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.129 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to P25
+ip address 20.200.35.3 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:35::3/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/2
+description to P24
+ip address 20.200.34.3 255.255.255.0
+ip ospf cost 1
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:20:200:34::3/64
+mpls traffic-eng tunnels
+ipv6 ospf 901 area 0
+ipv6 ospf cost 1
+ip rsvp bandwidth percent 100
+!
+interface GigabitEthernet0/3
+description to CE22
+ip address 192.168.22.1 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+router ospfv3 901
+router-id 20.200.0.3
+!
+address-family ipv6 unicast
+passive-interface Loopback0
+exit-address-family
+!
+router ospf 901
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng area 0
+passive-interface Loopback0
+network 20.200.0.0 0.0.255.255 area 0
+!
+router bgp 901
+bgp router-id 20.200.0.3
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 20.200.0.2 remote-as 901
+neighbor 20.200.0.2 description RR-PE22
+neighbor 20.200.0.2 update-source Loopback0
+neighbor 2001:20:200::2 remote-as 901
+neighbor 2001:20:200::2 description RR-PE22
+neighbor 2001:20:200::2 update-source Loopback0
+!
+address-family ipv4
+network 20.200.0.0 mask 255.255.0.0
+aggregate-address 20.200.0.0 255.255.0.0 summary-only
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 next-hop-self
+exit-address-family
+!
+address-family vpnv4
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+address-family ipv6
+network 2001:20:200::/48
+aggregate-address 2001:20:200::/48 summary-only
+neighbor 2001:20:200::2 activate
+neighbor 2001:20:200::2 next-hop-self
+exit-address-family
+!
+address-family vpnv6
+neighbor 20.200.0.2 activate
+neighbor 20.200.0.2 send-community extended
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 20.200.0.0 255.255.0.0 Null0 254
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ipv6 route 2001:20:200::/48 Null0 254
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec `CC`
+banner incoming `CC`
+banner login `CC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+stopbits 1
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+        <interface id="4" name="GigabitEthernet0/5"/>
+    </node>
+    <node name="CE23" type="SIMPLE" subtype="IOSv" location="722,216">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:32:02 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE23
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$wMEr$xz1gHaobr.SMF.E9aQtJa/
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 23.23.0.3 255.255.255.255
+ipv6 address 2001:23:23::3/128
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.117 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE21
+ip address 192.168.23.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:192:168:23::254/64
+!
+router bgp 24
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+!
+address-family ipv4
+network 23.23.0.3 mask 255.255.255.255
+exit-address-family
+!
+address-family ipv6
+network 2001:23:23::3/128
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="CE21" type="SIMPLE" subtype="IOSv" location="542,76">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:31:44 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE21
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$C/b7$VWgsZvWpiXSYTkkxgbAp70
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 21.200.0.1 255.255.255.255
+ipv6 address 2001:21:200::1/128
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.115 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE21
+ip address 192.168.21.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1.66
+encapsulation dot1Q 66
+ipv6 address 200:192:168:21::1/64
+no cdp enable
+!
+router ospf 42
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCC`
+banner incoming `CCC`
+banner login `CCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="CE22" type="SIMPLE" subtype="IOSv" location="752,462">
+        <extensions>
+            <entry key="config" type="String">! Last configuration change at 21:31:56 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE22
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls traffic-eng tunnels
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$sC.Z$5CS2byrVtHdoiCnyPR4/r0
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 21.200.0.2 255.255.255.255
+ipv6 address 2001:21:200::2/128
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.116 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE23
+ip address 192.168.22.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1.66
+encapsulation dot1Q 66
+ipv6 address autoconfig
+no cdp enable
+!
+router ospf 42
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="PE301" type="SIMPLE" subtype="CSR1000v" location="400,82">
+        <extensions>
+            <entry key="config" type="String">! Last configuration change at 21:36:01 UTC Fri Jan 26 2018
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname PE301
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable secret 5 $1$rdMt$EAZGmfKkm51PLBVLz1Mkn1
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+crypto pki trustpoint TP-self-signed-2477046022
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-2477046022
+revocation-check none
+rsakeypair TP-self-signed-2477046022
+!
+crypto pki trustpoint TP-self-signed-4257516324
+enrollment selfsigned
+subject-name cn=IOS-Self-Signed-Certificate-4257516324
+revocation-check none
+rsakeypair TP-self-signed-4257516324
+!
+!
+crypto pki certificate chain TP-self-signed-2477046022
+certificate self-signed 01 nvram:IOS-Self-Sig#1.cer
+crypto pki certificate chain TP-self-signed-4257516324
+license udi pid CSR1000V sn 91E6BCKL6UN
+license accept end user agreement
+license boot level ax
+spanning-tree extend system-id
+!
+username cisco privilege 15 secret 5 $1$pYhf$zpjBnQJO86kiWqwKW6c/w/
+!
+redundancy
+!
+!
+!
+!
+!
+!
+ip ssh server algorithm authentication password
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 30.3.1.1 255.255.255.255
+ipv6 address 2001:30:3:1::1/128
+!
+interface Loopback26
+ip address 26.0.0.1 255.0.0.0
+!
+interface Loopback27
+ip address 27.0.0.1 255.0.0.0
+!
+interface Loopback28
+ip address 28.0.0.1 255.0.0.0
+!
+interface Loopback29
+ip address 29.0.0.1 255.0.0.0
+!
+interface GigabitEthernet1
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.130 255.255.255.0
+negotiation auto
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet2
+description to PE13
+ip address 19.3.0.1 255.255.255.0
+negotiation auto
+ipv6 address 2001:19:3::1/64
+no mop enabled
+no mop sysid
+!
+interface GigabitEthernet3
+description to PE21
+ip address 91.3.0.1 255.255.255.0
+negotiation auto
+ipv6 address 2001:91:3::1/64
+no mop enabled
+no mop sysid
+!
+router bgp 300
+bgp router-id 30.3.1.1
+bgp log-neighbor-changes
+no bgp default ipv4-unicast
+neighbor 19.3.0.13 remote-as 109
+neighbor 19.3.0.13 local-as 19
+neighbor 2001:19:3::13 remote-as 109
+neighbor 2001:19:3::13 local-as 19
+neighbor 2001:91:3::21 remote-as 901
+neighbor 2001:91:3::21 local-as 91
+neighbor 91.3.0.21 remote-as 901
+neighbor 91.3.0.21 local-as 91
+!
+address-family ipv4
+network 26.0.0.0
+network 27.0.0.0
+network 28.0.0.0
+network 29.0.0.0
+network 30.3.0.0 mask 255.255.0.0
+aggregate-address 30.3.0.0 255.255.0.0 summary-only
+neighbor 19.3.0.13 activate
+neighbor 91.3.0.21 activate
+exit-address-family
+!
+address-family ipv6
+network 2001:30:3::/48
+aggregate-address 2001:30:3::/48 summary-only
+neighbor 2001:19:3::13 activate
+neighbor 2001:91:3::21 activate
+exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 30.3.0.0 255.255.0.0 Null0 254
+!
+ipv6 route 2001:30:3::/48 Null0 254
+!
+!
+!
+control-plane
+!
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+stopbits 1
+line vty 0
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+line vty 1
+exec-timeout 720 0
+privilege level 15
+password cisco
+login local
+length 0
+transport input telnet ssh
+line vty 2 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+!
+end</entry>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+    </node>
+    <node name="CE101" type="SIMPLE" subtype="IOSv" location="41,220">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">! Last configuration change at 21:31:20 UTC Fri Jan 26 2018
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE101
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+!
+address-family ipv4
+exit-address-family
+!
+address-family ipv6
+exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 5 $1$pd4t$6rqAEaV03pOiw/8RAyVV91
+!
+redundancy
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+description Loopback
+ip address 13.101.13.1 255.255.255.255
+ipv6 address 2001:13:101:13::1/128
+ipv6 ospf cost 1
+!
+interface GigabitEthernet0/0
+description OOB Management
+vrf forwarding Mgmt-intf
+ip address 172.16.1.111 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+!
+interface GigabitEthernet0/1
+description to PE11
+ip address 172.16.101.254 255.255.255.0
+duplex full
+speed auto
+media-type rj45
+ipv6 address 2001:172:16:101::254/64
+!
+!
+router eigrp AS64
+!
+address-family ipv4 unicast autonomous-system 64
+!
+af-interface Loopback0
+passive-interface
+exit-af-interface
+!
+topology base
+exit-af-topology
+network 13.0.0.0
+network 172.16.0.0
+exit-address-family
+!
+address-family ipv6 unicast autonomous-system 64
+!
+af-interface Loopback0
+passive-interface
+exit-af-interface
+!
+topology base
+exit-af-topology
+exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh server algorithm authentication password
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+control-plane
+!
+banner exec `CCCC`
+banner incoming `CCCC`
+banner login `CCCC`
+!
+line con 0
+privilege level 15
+password cisco
+logging synchronous
+transport preferred none
+line aux 0
+line vty 0 4
+exec-timeout 720 0
+password cisco
+login local
+transport input telnet ssh
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <annotations/>
+    <connection dst="/virl:topology/virl:node[8]/virl:interface[4]" src="/virl:topology/virl:node[20]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[6]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[8]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[3]" src="/virl:topology/virl:node[8]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[3]" src="/virl:topology/virl:node[5]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[1]" src="/virl:topology/virl:node[5]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[2]" src="/virl:topology/virl:node[6]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[8]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[3]" src="/virl:topology/virl:node[5]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[5]" src="/virl:topology/virl:node[10]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[10]/virl:interface[1]" src="/virl:topology/virl:node[5]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[2]" src="/virl:topology/virl:node[9]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[11]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[6]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[19]/virl:interface[1]" src="/virl:topology/virl:node[6]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[6]" src="/virl:topology/virl:node[19]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[6]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[5]" src="/virl:topology/virl:node[17]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[16]/virl:interface[1]" src="/virl:topology/virl:node[4]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[7]/virl:interface[1]" src="/virl:topology/virl:node[4]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[14]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[13]/virl:interface[2]" src="/virl:topology/virl:node[7]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[12]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[1]" src="/virl:topology/virl:node[12]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[7]/virl:interface[3]" src="/virl:topology/virl:node[12]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[1]" src="/virl:topology/virl:node[15]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[12]/virl:interface[1]" src="/virl:topology/virl:node[11]/virl:interface[5]"/>
+</topology>
